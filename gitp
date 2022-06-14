@@ -1,4 +1,4 @@
-# bash
+#! bash
 git add --all
 git commit -m ":fre: $1"
 git push
