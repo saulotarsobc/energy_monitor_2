@@ -2,30 +2,25 @@
 
 function getTemperature()
 {
-    $output = shell_exec('python3 ./python/main.py getTemperature');
-    return ($output);
+    return (shell_exec('python3 ./python/main.py getTemperature'));
 }
 
 function getVoltage1()
 {
-    $output = shell_exec('python3 ./python/main.py getVoltage1');
-    return ($output);
+    return (shell_exec('python3 ./python/main.py getVoltage1'));
 }
 
 function getVoltage2()
 {
-    $output = shell_exec('python3 ./python/main.py getVoltage2');
-    return ($output);
+    return (shell_exec('python3 ./python/main.py getVoltage2'));
 }
 
 function getVoltage3()
 {
-    $output = shell_exec('python3 ./python/main.py getVoltage3');
-    return ($output);
+    return (shell_exec('python3 ./python/main.py getVoltage3'));
 }
 
 function manager()
 {
-    $output = shell_exec("ls -ltr --time-style='+%s'");
-    var_dump($output);
+    return (shell_exec("ls -ltr --time-style='+%s'"));
 }
