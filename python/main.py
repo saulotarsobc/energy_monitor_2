@@ -6,8 +6,10 @@ import re
 
 metodo = sys.argv[1]
 
+# retornar temperaturas
 if metodo == 'getTemperature':
-    print(json.dumps('py getTemperature'))
+    final = []
+    print(json.dumps(final))
     exit()
 
 if metodo == 'getVoltage1':
