@@ -1,6 +1,6 @@
 <?php
-header('Content-Type:application/json');
 error_reporting(0);
+header('Content-Type:application/json');
 
 include_once('./functions.php');
 
