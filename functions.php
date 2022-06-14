@@ -27,5 +27,5 @@ function getVoltage3()
 function manager()
 {
     $output = shell_exec("ls -ltr --time-style='+%s'");
-    print_r($output);
+    var_dump($output);
 }
