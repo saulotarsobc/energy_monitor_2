@@ -5,7 +5,7 @@ import os
 import json
 import re
 import serial
-from serial import SerialException
+from time import sleep
 
 PORTA_SERIAL = '/dev/ttyUSB0'
 SPEED = 115200
@@ -18,9 +18,8 @@ def get_serial_energia():
         VALUE = comport.readline()
         comport.close()
         return VALUE
-
-    except serial.SerialException:
-        return 'Erro ao tentar comnicacao serial'
+    except:
+        print("An exception occurred")
 
 
 metodo = sys.argv[1]
@@ -48,5 +47,6 @@ if metodo == 'getVoltage3':
 
 
 if metodo == 'teste':
+    sleep(5)
     print(json.dumps('py teste'))
     exit(1234)
