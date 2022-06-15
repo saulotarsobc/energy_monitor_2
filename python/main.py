@@ -48,5 +48,5 @@ if metodo == 'getVoltage3':
 
 
 if metodo == 'teste':
-    # print(json.dumps('py teste'))
+    print(json.dumps('py teste'))
     exit(1234)
