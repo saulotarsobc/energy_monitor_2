@@ -38,6 +38,10 @@ switch ($func) {
         echo manager();
         break;
 
+    case 'teste':
+        echo teste();
+        break;
+
     default:
         echo json_encode(array('message' => 'método não definido'), 256);
         break;

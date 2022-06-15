@@ -24,3 +24,10 @@ function manager()
 {
     return (shell_exec("ls -ltr --time-style='+%s'"));
 }
+
+function teste()
+{
+    // return (1234);
+
+    return (shell_exec("python3 ./python/main.py teste"));
+}
