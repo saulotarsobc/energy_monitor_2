@@ -4,6 +4,8 @@ header('Content-Type:application/json');
 
 include_once('./functions.php');
 
+// var_dump($_GET);die;
+
 $token = $_GET['token'];
 if ($token != 'asdf1234') {
     echo json_encode(array('message' => 'Token inválido. Sem permissão para acessar!'), 256);

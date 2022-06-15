@@ -27,7 +27,5 @@ function manager()
 
 function teste()
 {
-    // return (1234);
-
     return (shell_exec("python3 ./python/main.py teste"));
 }
