@@ -8,7 +8,7 @@ if __name__ == "__main__":
     try:
         # Connect to the slave
         serial = serial.Serial(
-            port='/dev/ttyUSB0',
+            port='/dev/ttyAMA0',
             baudrate=9600,
             bytesize=8,
             parity='N',
