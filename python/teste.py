@@ -5,10 +5,9 @@ import serial
 import modbus_tk.defines as cst
 from modbus_tk import modbus_rtu
 
-
 # Connect to the slave
 serial = serial.Serial(
-    port='/dev/ttyUSB0',
+    port='/dev/ttyS0',
     baudrate=9600,
     bytesize=8,
     parity='N',
@@ -16,6 +15,9 @@ serial = serial.Serial(
     xonxoff=0
 )
 
+master = modbus_rtu.RtuMaster(serial)
+master.set_timeout(2.0)
+master.set_verbose(True)
 
 while True:
     data = master.execute(1, cst.READ_INPUT_REGISTERS, 0, 10)
@@ -34,7 +36,8 @@ while True:
     print('Frequency [Hz]\t: ', frequency)
     print('Power factor []\t: ', powerFactor)
     #print('Alarm : ', alarm)
-
+    print("--------------------")
+    
     time.sleep(1)
 
 # Changing power alarm value to 100 W
