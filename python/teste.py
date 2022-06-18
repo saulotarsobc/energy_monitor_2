@@ -5,14 +5,10 @@ import serial
 import modbus_tk.defines as cst
 from modbus_tk import modbus_rtu
 
-# Setting LED matrix
-serial_led = spi(port=0, device=0, gpio=noop())
-device = max7219(serial_led, cascaded=4, block_orientation=-90)
-
 
 # Connect to the slave
 serial = serial.Serial(
-    port='/dev/ttyS0',
+    port='/dev/ttyUSB0',
     baudrate=9600,
     bytesize=8,
     parity='N',
@@ -20,9 +16,6 @@ serial = serial.Serial(
     xonxoff=0
 )
 
-master = modbus_rtu.RtuMaster(serial)
-master.set_timeout(2.0)
-master.set_verbose(True)
 
 while True:
     data = master.execute(1, cst.READ_INPUT_REGISTERS, 0, 10)
@@ -41,14 +34,6 @@ while True:
     print('Frequency [Hz]\t: ', frequency)
     print('Power factor []\t: ', powerFactor)
     #print('Alarm : ', alarm)
-    print("--------------------")
-
-    # show Ampere in LED matrix
-    msg = str(current)
-    w, h = textsize(msg, font=proportional(CP437_FONT))
-    x = round((device.width - w) / 2)
-    with canvas(device) as draw:
-        text(draw, (x, 0), msg, fill="white", font=proportional(CP437_FONT))
 
     time.sleep(1)
 
