@@ -43,5 +43,5 @@ if __name__ == "__main__":
         print('exiting pzem script')
     except Exception as e:
         print(e)
-    finally:
-        master.close()
+    # finally:
+        # master.close()
