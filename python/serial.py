@@ -8,6 +8,8 @@ PORTA_SERIAL = '/dev/ttyUSB0'
 SPEED = 115200
 
 comport = serial(PORTA_SERIAL, SPEED)
+exit()
+
 sleep(1)
 VALUE = comport.readline()
 comport.close()
