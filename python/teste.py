@@ -1,59 +1,47 @@
-# Reading PZEM-004t power sensor (new version v3.0) through Modbus-RTU protocol over TTL UART
-# Run in python3
-
-# To install library for PZEM:
-# pip3 install modbus-tk
-# pip3 install pyserial
-
 import time
-
-# library for PZEM-004T V3
+import json
 import serial
 import modbus_tk.defines as cst
 from modbus_tk import modbus_rtu
 
+if __name__ == "__main__":
+    try:
+        # Connect to the slave
+        serial = serial.Serial(
+                               port='/dev/ttyUSB0',
+                               baudrate=9600,
+                               bytesize=8,
+                               parity='N',
+                               stopbits=1,
+                               xonxoff=0
+                              )
 
-# Connect to the slave
-serial = serial.Serial(
-    port='/dev/ttyUSB0',
-    baudrate=9600,
-    bytesize=8,
-    parity='N',
-    stopbits=1,
-    xonxoff=0
-)
+        master = modbus_rtu.RtuMaster(serial)
+        master.set_timeout(2.0)
+        master.set_verbose(True)
+        # Changing power alarm value to 100 W 
+        # master.execute(1, cst.WRITE_SINGLE_REGISTER, 1, output_value=100)
+        dict_payload = dict()
 
-master = modbus_rtu.RtuMaster(serial)
-master.set_timeout(2.0)
-master.set_verbose(True)
+        while True:
+            data = master.execute(1, cst.READ_INPUT_REGISTERS, 0, 10)
 
-while True:
-    data = master.execute(1, cst.READ_INPUT_REGISTERS, 0, 10)
-    voltage = data[0] / 10.0  # [V]
-    current = (data[1] + (data[2] << 16)) / 1000.0  # [A]
-    power = (data[3] + (data[4] << 16)) / 10.0  # [W]
-    energy = data[5] + (data[6] << 16)  # [Wh]
-    frequency = data[7] / 10.0  # [Hz]
-    powerFactor = data[8] / 100.0
-    alarm = data[9]  # 0 = no alarm
+            dict_payload["voltage"]= data[0] / 10.0
+            dict_payload["current_A"] = (data[1] + (data[2] << 16)) / 1000.0 # [A]
+            dict_payload["power_W"] = (data[3] + (data[4] << 16)) / 10.0 # [W]
+            dict_payload["energy_Wh"] = data[5] + (data[6] << 16) # [Wh]
+            dict_payload["frequency_Hz"] = data[7] / 10.0 # [Hz]
+            dict_payload["power_factor"] = data[8] / 100.0
+            dict_payload["alarm"] = data[9] # 0 = no alarm
+            str_payload = json.dumps(dict_payload, indent=2)
+            print(str_payload)
 
-    print('Voltage [V]\t: ', voltage)
-    print('Current [A]\t: ', current)
-    print('Power [W]\t: ', power)  # active power (V * I * power factor)
-    print('Energy [Wh]\t: ', energy)
-    print('Frequency [Hz]\t: ', frequency)
-    print('Power factor []\t: ', powerFactor)
-    #print('Alarm : ', alarm)
-    print("--------------------")
+            time.sleep(1)
 
-    time.sleep(1)
-
-# Changing power alarm value to 100 W
-# master.execute(1, cst.WRITE_SINGLE_REGISTER, 1, output_value=100)
-
-# try:
-# master.close()
-# if slave.is_open:
-    # slave.close()
-# except:
-   # pass
+        
+    except KeyboardInterrupt:
+        print('exiting pzem script')
+    except Exception as e:
+        print(e)
+    finally:
+        master.close()
