@@ -4,6 +4,8 @@ import serial
 import modbus_tk.defines as cst
 from modbus_tk import modbus_rtu
 
+master = modbus_rtu.RtuMaster(serial)
+
 if __name__ == "__main__":
     try:
         # Connect to the slave
@@ -16,7 +18,6 @@ if __name__ == "__main__":
             xonxoff=0
         )
 
-        master = modbus_rtu.RtuMaster(serial)
         master.set_timeout(2.0)
         master.set_verbose(True)
         # Changing power alarm value to 100 W
