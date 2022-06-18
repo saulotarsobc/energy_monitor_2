@@ -42,6 +42,7 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print('exiting pzem script')
     except Exception as e:
+        print('errrou: ')
         print(e)
     # finally:
         # master.close()
